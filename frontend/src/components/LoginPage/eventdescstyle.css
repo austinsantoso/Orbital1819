@@ -1,0 +1,9 @@
+  .eventdesc {
+    width:200px;
+    height:150px;
+    padding: 20px;
+    background-color: #909090;
+    border: 3px solid #f2f2f2;
+    float: left;
+    margin: 10px
+  }
