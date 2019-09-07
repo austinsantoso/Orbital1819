@@ -1,0 +1,61 @@
+.loginForm {
+    width:300px;
+    height:420px;
+    padding: 20px;
+    margin-left: -150px;
+    margin-top: -200px;
+    border: 3px solid #f2f2f2;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.loginForm#register {
+    height: "380px";
+    margin-top: "-175px";
+}
+
+.loginform-container {
+    padding: 10px;
+}
+
+.loginform-container input {
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+.loginform-container input:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.loginform-container .btn {
+    cursor: pointer;
+    border-radius: 0;
+    width: 80%;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.loginform-container .btn.primary {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+.loginform-container .btn.secondary {
+    background-color: #ff0000;
+    color: #fff;
+}
+
+.loginform-container .btn:hover {
+    opacity: 1;
+}
+
+.loginform-container .error {
+    padding: 0;
+    margin-bottom: 10px;
+    color: #ff0000;
+}

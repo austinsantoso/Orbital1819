@@ -30,6 +30,7 @@ class LandingPage extends React.Component {
           userData={this.props.userData}
           toggleLanding={this.props.toggleLanding}
           showCreateCalendarModal={this.toggleShowCreateCalendarModal}
+          loadCalendar={this.props.loadCalendar}
         />
         <LandingModals
           userData={this.props.userData}

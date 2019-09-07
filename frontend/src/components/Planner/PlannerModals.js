@@ -1,28 +1,27 @@
 import React from 'react';
 
 import AddEventModal from './AddEventModal';
-import ItemDescModal from './ItemDescModal';
+import EventDetailModal from './EventDetailModal';
 
 class PlannerModals extends React.Component {
   render() {
     return (
       <div className="planner-modals">
         <AddEventModal
-          code={this.props.code}
-          destinationLatLong={this.props.destinationLatLong}
-          destinationId={this.props.destinationId}
           show={this.props.showAddEventModal}
           toggleShow={this.props.toggleAddEventModal}
+
+          calendarData={this.props.calendarData}
           getEvents={this.props.getEvents}
         />
-        <ItemDescModal
-          code={this.props.code}
-          id={this.props.item.id} //the item id
-          title={this.props.item.title}
-          placeId={this.props.item.placeId}
-          comment={this.props.item.comment}
-          show={this.props.showItemDescModal}
-          toggleShow={this.props.toggleItemDescModal}
+        <EventDetailModal
+          show={this.props.showEventDetailModal}
+          toggleShow={this.props.toggleEventDetailModal}
+
+          code={this.props.calendarData.code}
+          id={this.props.eventDetail.id}
+          title={this.props.eventDetail.title}
+          comment={this.props.eventDetail.comment}
           getEvents={this.props.getEvents}
         />
       </div>

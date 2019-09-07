@@ -1,7 +1,5 @@
 import React from 'react';
 
-import TempMap from './components/TempMap'
-
 import LandingPage from './components/Landing/LandingPage';
 import PlannerPage from './components/Planner/PlannerPage';
 
@@ -40,19 +38,18 @@ class App extends React.Component {
   }
 
   loadCalendar(code) {
+    console.log('loadCalendar fired, code:', code);
     localStorage.setItem('lastViewedCalendarCode', code);
     this.setState({
       showLandingPage: false,
       lastViewedCalendarCode: code
-    })
+    });
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className="App">
-
-<LandingPage
+        <LandingPage
           userData={this.props.userData}
           showLandingPage={this.state.showLandingPage}
           toggleLanding={this.toggleLanding}
@@ -61,17 +58,14 @@ class App extends React.Component {
 
         <PlannerPage
           userData={this.props.userData}
+          setUserData={this.props.setUserData}
           calendarCode={this.state.lastViewedCalendarCode}
           showLandingPage={this.state.showLandingPage}
           toggleLanding={this.toggleLanding}
         />
-        
       </div>
     );
   }
 }
 
 export default App;
-/*
-
-*/

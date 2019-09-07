@@ -6,11 +6,12 @@ class ItemDescModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-		id: this.props.id,
-		code: this.props.code,
-		title: this.props.title,
-		placeId: this.props.placeId,
-		comment: this.props.comment,
+			id: this.props.id,
+			code: this.props.code,
+			title: this.props.title,
+			place_id: '',
+      place: '',
+			comment: this.props.comment,
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -69,7 +70,8 @@ class ItemDescModal extends React.Component {
 				id: this.props.id,
 				code: this.props.code,
 				title: this.props.title,
-				placeId: this.props.placeId,
+				place_id: '',
+				place: '',
 				comment: this.props.comment,
 			})
 		}
@@ -95,7 +97,7 @@ class ItemDescModal extends React.Component {
               <Form.Label>GOOGLE MAP API</Form.Label>
               <Form.Row>
                 <Col>
-                  THE GOOGLE MAP API FOR {this.state.placeId}
+                  FOR THE GOOGLE MAP API
                 </Col>
               </Form.Row>
             </Form.Group>

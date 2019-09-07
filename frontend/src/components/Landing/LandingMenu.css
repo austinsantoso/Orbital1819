@@ -10,13 +10,17 @@
   justify-content: center;
 }
 
-.landing-menu .hello p {
-  font-size: 24px;
-}
-
 .left-border {
   border-left: 1px solid #444;
 }
 .right-border {
   border-right: 1px solid #444;
+}
+
+.calendar .btn-group {
+  width: 100%;
+}
+
+.calendar .btn-group .name {
+  width: 70%;
 }

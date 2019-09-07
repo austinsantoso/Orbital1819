@@ -3,86 +3,56 @@ import Axios from 'axios';
 import { Modal, Form, Col, Button } from 'react-bootstrap';
 import { SingleDatePicker } from 'react-dates';
 import moment from 'moment';
-import Autocomplete from '../Map/Autocomplete';
 
-const google = window.google;
+import './AddEventModal.css';
+import PlacesInput from '../Places/PlacesInput';
 
 class AddEventModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      address: '',
-      placeId:'',
+      place: '',
+      placeId: '',
       date: null,
       startTime: '',
       endTime: '',
       focused: null,
     }
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleSelect = this.handleSelect.bind(this)
   }
 
-  handleChange(event) {
+  handleChange = event => {
     const { name, value } = event.target;
     this.setState({
       [name]: value
-    })
+    });
   }
 
-  handleSelect(address, placeId) {
-    console.group("handle select add event")
-    this.setState({
-      address: address,
-      placeId: placeId,
-    })
-    console.log(address)
-    console.log(placeId)
-    console.groupEnd()
+  handlePlaceChange = (address, placeId) => {
+    if (placeId) {
+      this.setState({
+        place: address,
+        placeId: placeId,
+      });
+    }
   }
 
-  handleSubmit(event) {
-      Axios.get('http://localhost:5000/getEvents/' + this.props.code).then((res) => {
-        let allEvents = res.data;
-        let newId = '';
-        // get the last id;
-        if (allEvents.length === 0) {
-          newId = '0'; // this is redundant
-        } else {
-          newId =  '' + (parseInt(allEvents[allEvents.length - 1].id) + 1)
-        }
-        console.log(res.data)
-        return newId
-      }).then((newId) => {
-        const startSplitted = this.state.startTime.split(':', 2).map(x => parseInt(x, 10));
-        const endSplitted = this.state.endTime.split(':', 2).map(x => parseInt(x, 10));
-        const data = {
-          id: newId,
-          title: this.state.address,
-          placeId: this.state.placeId,
-          start: moment(this.state.date).startOf('day').add({ hours: startSplitted[0], minutes: startSplitted[1] }).format('YYYY-MM-DD HH:mm:ss'),
-          end: moment(this.state.date).startOf('day').add({ hours: endSplitted[0], minutes: endSplitted[1] }).format('YYYY-MM-DD HH:mm:ss'),
-          comment: '',
-        }
+  handleSubmit = event => {
+    const startSplitted = this.state.startTime.split(':', 2).map(x => parseInt(x, 10));
+    const endSplitted = this.state.endTime.split(':', 2).map(x => parseInt(x, 10));
+    const data = {
+      id: this.state.placeId,
+      title: this.state.place,
+      start: moment(this.state.date).startOf('day').add({ hours: startSplitted[0], minutes: startSplitted[1] }).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(this.state.date).startOf('day').add({ hours: endSplitted[0], minutes: endSplitted[1] }).format('YYYY-MM-DD HH:mm:ss'),
+      comment: '',
+    }
 
-        Axios.post('http://localhost:5000/addEvent/' + this.props.code + '/' + JSON.stringify(data))
-          .then((res) => {
-            console.log('success');
-            this.props.toggleShow();
-            this.props.getEvents(this.props.code);
-          })
-          .catch((err) => {
-            if (err) {
-              console.log(err);
-            }
-          });
-      }).catch((err) => {
-            if (err) {
-              console.log(err);
-            }
-          })
-
+    Axios.post('http://localhost:5000/addEvent/' + this.props.calendarData.code + '/' + JSON.stringify(data))
+      .then((res) => {
+        this.props.toggleShow();
+        this.props.getEvents(this.props.calendarData.code);
+      })
+      .catch(console.log);
   }
 
   render() {
@@ -97,28 +67,26 @@ class AddEventModal extends React.Component {
           <Form>
             <Form.Group controlId='form-eventPlace'>
               <Form.Label>Place Name</Form.Label>
-              <Form.Row>
-                <Col>
-                 {/*<Form.Control type="text" name="place" onChange={this.handleChange} />*/}
-                <Autocomplete
-                  handleSelect={this.handleSelect}
-                  searchOptions={{
-                    location: new google.maps.LatLng(this.props.destinationLatLong),
-                    radius: 50000,
-                  }}/>
-                </Col>
-              </Form.Row>
+              <PlacesInput
+                value={this.state.place}
+                onChange={place => this.setState({ place })}
+                onSelect={this.handlePlaceChange}
+              />
             </Form.Group>
             <Form.Group controlId='form-eventDate'>
               <Form.Label>Date</Form.Label>
               <Form.Row>
                 <Col>
                   <SingleDatePicker
+                    id="add_event_date"
                     date={this.state.date}
                     onDateChange={date => this.setState({ date })}
                     focused={this.state.focused}
                     onFocusChange={({ focused }) => this.setState({ focused })}
-                    id="add_event_date"
+                    numberOfMonths={1}
+                    isOutsideRange={day =>
+                      !day.isBetween(this.props.calendarData.start_date, this.props.calendarData.end_date)
+                    }
                   />
                 </Col>
               </Form.Row>

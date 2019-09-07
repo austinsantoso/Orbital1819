@@ -1,22 +1,20 @@
-import React from 'react'
-import './homestyle.css'
+import React from 'react';
 
-import HomeNoLogin from './LoginPage/HomeNoLogin'
-import HomeLogin from './LoginPage/HomeLogin';
+import HomeNoLogin from './Login/HomeNoLogin';
+import HomeLogin from './Login/HomeLogin';
+
+import './homestyle.css';
 
 class Home extends React.Component {
-    render() {
-        if (!this.props.username) { // has no username aka hasnt loged in 
-            return (
-                <HomeNoLogin />
-            )
-        } else {
-            return (
-                <HomeLogin username={this.props.username}/>
-            )
-        }
-        
+  render() {
+    if (!this.props.username) {
+      // User not logged in
+      return <HomeNoLogin />;
+    } else {
+      // User has logged in
+      return <HomeLogin username={this.props.username} />;
     }
+  }
 }
 
-export default Home
+export default Home;

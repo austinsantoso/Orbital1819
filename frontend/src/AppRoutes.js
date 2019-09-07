@@ -1,14 +1,13 @@
 import React from 'react';
-
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import App from './App';
-import TimelineContainer from './components/Timeline/TimelineContainer'
-import NotFound from './components/Routes/NotFound'
-import Timeline from './components/Timeline/TimelineMain'
-import LoginPage from './components/LoginPage/LoginMain'
-import CreateUserPage from './components/LoginPage/CreateUser'
-import Home from './components/Home'
+import TimelineContainer from './components/Timeline/TimelineContainer';
+import NotFound from './components/Routes/NotFound';
+import Timeline from './components/Timeline/TimelineMain';
+import LoginPage from './components/Login/LoginPage';
+import RegisterPage from './components/Login/RegisterPage';
+import Home from './components/Home';
 
 class AppRoutes extends React.Component {
   constructor(props) {
@@ -25,13 +24,13 @@ class AppRoutes extends React.Component {
   }
 
   setUserData(data) {
+    localStorage.setItem('userData', JSON.stringify(data));
     this.setState({
       userData: data
     });
   }
 
   componentWillMount() {
-    console.log('mounting');
     if (localStorage.getItem('userData') == null) {
       localStorage.setItem('userData', '{}');
     }
@@ -45,12 +44,12 @@ class AppRoutes extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route exact path="/" component={() => <App userData={this.state.userData} />} />
+          <Route exact path="/" component={() => <App userData={this.state.userData} setUserData={this.setUserData} />} />
           <Route path="/newTimeline" component={TimelineContainer} />
           <Route path="/v1" render={() => <Home username={this.state.username} />} />
           <Route path='/event/:id' render={(props) => <Timeline {...props} username={this.state.username} />} />
           <Route path="/login" render={() => <LoginPage setUserData={this.setUserData} />} />
-          <Route path="/register" render={() => <CreateUserPage setUserData={this.setUserData} />} />
+          <Route path="/register" render={() => <RegisterPage setUserData={this.setUserData} />} />
           <Route component={NotFound} />
         </Switch>
       </Router>
@@ -58,4 +57,4 @@ class AppRoutes extends React.Component {
   }
 }
 
-export default AppRoutes
+export default AppRoutes;
